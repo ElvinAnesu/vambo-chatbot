@@ -1,34 +1,36 @@
-import { Twilio } from "twilio"
+// pages/api/whatsapp.js
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID
-const authToken = process.env.TWILIO_AUTH_TOKEN
-const client = new Twilio(accountSid, authToken)
+import { Twilio } from 'twilio';
 
-export async function POST(req){
-    
-    const incomingMessage = req.body.Body;
-    const from = req.body.From
+const accountSid = "AC18e60f8ef151bedb8a9a4f5fa4688fae";
+const authToken = "acf2ad65de51995c5d430e50dac976d0";
+const client = new Twilio(accountSid, authToken);
 
-    let responseMessage
+export default async function handler(req, res) {
+    if (req.method === 'POST') {
+        const { Body, From } = req.body;
 
-    if (incomingMessage.toLowerCase() === 'hello') {
-        responseMessage = 'Hi there! How can I help you today?';
-    } else {
-        responseMessage = 'Sorry, I did not understand that. Can you please rephrase?';
-    }
+        let responseMessage;
 
-    client.messages
-            .create({
+        // Your chatbot logic
+        if (Body.toLowerCase().includes('hello')) {
+            responseMessage = 'Hi there! How can I help you today?';
+        } else {
+            responseMessage = 'Sorry, I didn\'t understand that. Can you please rephrase?';
+        }
+
+        try {
+            await client.messages.create({
                 body: responseMessage,
                 from: 'whatsapp:+14155238886', // Your Twilio number
-                to: from
-            })
-            .then((message) => {
-                console.log(message.sid);
-                res.status(200).send('Message sent');
-            })
-            .catch((error) => {
-                console.error(error);
-                res.status(500).send('Error sending message');
+                to: From
             });
+            res.status(200).send('Message sent');
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error sending message');
+        }
+    } else {
+        res.status(405).send('Method Not Allowed');
+    }
 }

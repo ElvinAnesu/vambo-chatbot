@@ -13,7 +13,8 @@
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
-    "twilio": "^5.2.2"
+    "twilio": "^5.2.2",
+    "whatsapp-web.js": "^1.23.0"
   },
   "devDependencies": {
     "eslint": "^8",
