@@ -20,7 +20,7 @@ export async function POST(req){
     client.messages
             .create({
                 body: responseMessage,
-                from: 'whatsapp:+14067805334', // Your Twilio number
+                from: 'whatsapp:+14155238886', // Your Twilio number
                 to: from
             })
             .then((message) => {
