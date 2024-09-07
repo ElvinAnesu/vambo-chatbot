@@ -18,7 +18,7 @@ export async function POST(request){
     console.log("body:", body)
     let responseMessage
 
-    if(body.toLowerCase().includes('hello')){
+    if(body.toLowerCase().includes('hello') || body.toLowerCase().includes('hi')){
         responseMessage = 'Hi👋, My I am Mwanasharia, your legal AI personal assistant.I can help you with a number of task in multiple african languages. How can i help you today🙂\n1. Translate from english to any african language\n2. Transalate any language to english\n3. Book an appointment';
     }else if(body === "1"){
         responseMessage = "This service is under upgrade to give you a wonderfull user experience how els can i help you?"
