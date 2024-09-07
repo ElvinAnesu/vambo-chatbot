@@ -1,7 +1,7 @@
 import { Twilio } from "twilio"
 import { NextResponse } from "next/server"
 
-export async function POST(req){
+export async function POST(request){
     
     const accountSid = process.env.TWILIO_ACCOUNT_SID
     const authToken = process.env.TWILIO_AUTH_TOKEN
