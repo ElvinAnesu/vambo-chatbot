@@ -3,8 +3,8 @@ import { NextResponse } from "next/server"
 
 export async function POST(req){
     
-    const accountSid = "AC18e60f8ef151bedb8a9a4f5fa4688fae"
-    const authToken = "ecb9da8748666d59396cc45b404171d2"
+    const accountSid = process.env.TWILIO_ACCOUNT_SID
+    const authToken = process.env.TWILIO_AUTH_TOKEN
     const {body, from} = await req.json()
     const client = new Twilio(accountSid, authToken)
 
