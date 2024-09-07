@@ -3,7 +3,7 @@
 import { Twilio } from 'twilio';
 
 const accountSid = "AC18e60f8ef151bedb8a9a4f5fa4688fae";
-const authToken = "acf2ad65de51995c5d430e50dac976d0";
+const authToken = "";
 const client = new Twilio(accountSid, authToken);
 
 export default async function handler(req, res) {
