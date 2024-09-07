@@ -8,9 +8,8 @@ export async function POST(request){
     
     const rawBody = await request.text();
 
-    // Parse the form-encoded data
+
     const formData = new URLSearchParams(rawBody);
-    // Get individual form data fields
     const body = formData.get('Body');
     const from = formData.get('From');
     const client = new Twilio(accountSid, authToken)
@@ -20,8 +19,17 @@ export async function POST(request){
     let responseMessage
 
     if(body.toLowerCase().includes('hello')){
-        responseMessage = 'Hi there! How can I help you today?';
-    } else {
+        responseMessage = 'Hi👋, My I am Mwanasharia, your legal AI personal assistant.I can help you with a number of task in multiple african languages. How can i help you today🙂\n1. Translate from english to any african language\n2. Transalate any language to english\n3. Book an appointment';
+    }else if(body === "1"){
+        responseMessage = "This service is under upgrade to give you a wonderfull user experience how els can i help you?"
+    } else if(body === "2"){
+        responseMessage = "This service is under upgrade to give you a wonderfull user experience how els can i help you?"
+    } else if(body === "3"){
+          responseMessage = "Please provide the date and time you would like to book whe appointment and our team will reach out to you to confirm availabiliti.\nstart with 'book appointment' followed by your infomation"
+    } else if(body.toLowerCase().includes('book appointment')){
+        responseMessage = "Appointment has been booked. our team will reach out to confirm availabiliity"
+    }
+    else  {
         responseMessage = 'Sorry, I didn\'t understand that. Can you please rephrase?';
     }
     try{
