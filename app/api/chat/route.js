@@ -129,13 +129,15 @@ export async function POST(request){
 }
 
 async function mainMenu(usermessage){
+    console.log("here is the user message:", usermessage)
   if(usermessage === "5"){
     await client.messages.create({
         body : flows[4].stage1,
         from: 'whatsapp:+14155238886',
         to:from
         })
-  }else if(usermessage === "3"){
+  }else if(usermessage == "3"){
+
     //change flow to book appointment and present the book appointment menu to user
     const changeflow = await Session.findOneAndUpdate({userNumber:from},{flow:"bookappointment", currentStep:"1"})
     if(changeflow){
