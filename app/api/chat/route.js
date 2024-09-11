@@ -33,12 +33,11 @@ const flows = [
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID
 const authToken = process.env.TWILIO_AUTH_TOKEN
-
-const rawBody = await request.text();
-const formData = new URLSearchParams(rawBody);
-const body = formData.get('Body');
-const from = formData.get('From');
 const client = new Twilio(accountSid, authToken)
+
+
+let body
+let from
 // let responseMessage
 
 // const from = "whatsapp:+263775953491"
@@ -51,6 +50,13 @@ const mainmenu = "How can i help you today🙂\n1. Access laws of kenya\n2. Lega
 
 export async function POST(request){
 
+    const _rawBody = await request.text()
+    const _formData = new URLSearchParams(_rawBody)
+    const _body = _formData.get('Body')
+    const _from = _formData.get('From')
+
+    body = _body
+    from = _from
     try{
         connectdb()
         //check if user has an existing conversation
