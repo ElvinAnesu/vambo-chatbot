@@ -70,16 +70,16 @@ export async function POST(request){
             //3. present user with the stage menu of the particular flow
             switch(flow){
                 case "mainmenu":
-                    mainMenu(body);
+                    mainMenu(_body);
                     break
                 case "bookappointment" :
-                    bookAppointment(body, session.currentStep)
+                    bookAppointment(_body, session.currentStep)
                     break
                 case "contactus":
-                    contactUs(body)
+                    contactUs(_body)
                     break
                 default:
-                    mainMenu(body)
+                    mainMenu(_body)
                     break
             }
         }else{
