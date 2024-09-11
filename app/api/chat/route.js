@@ -11,8 +11,8 @@ const client = new Twilio(accountSid, authToken)
 const welcometxt = "Hi👋, My I am Mwanasharia, your legal AI personal assistant.I can help you with a number of task in multiple african languages."
 const mainmenu = "How can i help you today🙂\n1. Access laws of kenya\n2. Legal Services\n3. Book an appointment\n4. Apply for Pro Bono Assistance\n5. Contact KDH Advocates"
 const contactdetails = "Here are our contact details:\n\n1. Email: law@kdhadvocates.com\n2. Phone: +254 798 595 416\n3. Address: IPS Building, Floor 1, Suite 2 Kimathi Street, Nairobi, Kenya"
-
-
+const mainmenu2 = "How else can i help you today🙂\n1. Access laws of kenya\n2. Legal Services\n3. Book an appointment\n4. Apply for Pro Bono Assistance\n5. Contact KDH Advocates"
+const mainmenuerror = "How can i help you today🙂\n1. Access laws of kenya\n2. Legal Services\n3. Book an appointment\n4. Apply for Pro Bono Assistance\n5. Contact KDH Advocates"
 
 export async function POST(request){
 
@@ -35,17 +35,17 @@ export async function POST(request){
                         from: 'whatsapp:+14155238886',
                         to:from
                         })
+                        await client.messages.create({
+                            body : mainmenu2,
+                            from: 'whatsapp:+14155238886',
+                            to:from
+                            })    
                 }else{
                     await client.messages.create({
-                        body : "invalid selection",
+                        body : mainmenuerror,
                         from: 'whatsapp:+14155238886',
                         to:from
                         })
-                        await client.messages.create({
-                            body : mainmenu,
-                            from: 'whatsapp:+14155238886',
-                            to:from
-                            })
                 }
             }else{
                 await client.messages.create({
