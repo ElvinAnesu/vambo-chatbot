@@ -28,7 +28,7 @@ export async function POST(request){
             //user check the flow
             if(sessionexists.flow == "mainmenu"){
                 await client.messages.create({
-                    body : "you are in main menu",
+                    body : `here is your text ${body}`,
                     from: 'whatsapp:+14155238886',
                     to:from
                     })
