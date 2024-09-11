@@ -25,12 +25,20 @@ export async function POST(request){
         //check if user has an existing conversation
         const sessionexists = await Session.findOne({userNumber:from})
         if(sessionexists){
-            //user
-            await client.messages.create({
-                body : mainmenu,
-                from: 'whatsapp:+14155238886',
-                to:from
-                })
+            //user check the flow
+            if(sessionexists.flow == "mainmenu"){
+                await client.messages.create({
+                    body : "you are in main menu",
+                    from: 'whatsapp:+14155238886',
+                    to:from
+                    })
+            }else{
+                await client.messages.create({
+                    body : "not in main menu",
+                    from: 'whatsapp:+14155238886',
+                    to:from
+                    })
+            }
         }else{ 
 
             await Session.create({
