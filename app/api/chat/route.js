@@ -26,15 +26,15 @@ export async function POST(request){
         const sessionexists = await Session.findOne({userNumber:from})
         if(sessionexists){
             //user check the flow
-            if(sessionexists.flow == "mainmenu"){
+            if(sessionexists.flow === 2){
                 await client.messages.create({
-                    body : `here is your text ${body}`,
+                    body : "your response is a number",
                     from: 'whatsapp:+14155238886',
                     to:from
                     })
             }else{
                 await client.messages.create({
-                    body : "not in main menu",
+                    body : "your rresponse is not a number",
                     from: 'whatsapp:+14155238886',
                     to:from
                     })
