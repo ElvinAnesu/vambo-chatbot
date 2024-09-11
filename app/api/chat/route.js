@@ -26,15 +26,15 @@ export async function POST(request){
         const sessionexists = await Session.findOne({userNumber:from})
         if(sessionexists){
             //user check the flow
-            if(sessionexists.flow === 2){
+            if(sessionexists.flow === "2"){
                 await client.messages.create({
-                    body : "your response is a number",
+                    body : "your response is a string",
                     from: 'whatsapp:+14155238886',
                     to:from
                     })
             }else{
                 await client.messages.create({
-                    body : "your rresponse is not a number",
+                    body : "your rresponse is not a string",
                     from: 'whatsapp:+14155238886',
                     to:from
                     })
