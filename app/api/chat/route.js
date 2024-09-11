@@ -35,6 +35,17 @@ export async function POST(request){
                         from: 'whatsapp:+14155238886',
                         to:from
                         })
+                }else{
+                    await client.messages.create({
+                        body : "invalid selection",
+                        from: 'whatsapp:+14155238886',
+                        to:from
+                        })
+                        await client.messages.create({
+                            body : mainmenu,
+                            from: 'whatsapp:+14155238886',
+                            to:from
+                            })
                 }
             }else{
                 await client.messages.create({
