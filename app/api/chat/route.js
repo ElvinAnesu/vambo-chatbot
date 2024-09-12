@@ -277,7 +277,100 @@ export async function POST(request){
                     }
                 }
             }else if(flow === "legalservices"){
-
+                const currentstep = sessionexists.currentStep
+                if(currentstep === "1"){
+                    if(body === "1"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Corporate & Commercial Law\nDive deep into the corporate world with our experienced legal team, who offer counsel on complex transactions, corporate governance, and regulatory compliance. Our services include providing guidance on asset sales, and securing financing through either single lenders or syndicate loans. We have cultivated expertise in several key areas including corporate restructurings, infrastructure, legal due diligence for both private and public entities, Banking Law and financial services.\n1. Book appointment\nBack to main menu",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "2"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Dispute Resolution\nOur dispute resolution prowess spans across litigation, arbitration, and mediation. We handle cases in various sectors including Administrative Law, Competition, Banking and Finance Litigation, Construction and Infrastructure Dispute Resolution, Corporate and Securities Litigation, Insurance Dispute Resolution and Insolvency Litigationfocusing on achieving favorable outcomes while minimizing risk and disruption to our clients’ operations.\n1. Book appointment\nBack to main menu",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "3"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Real Estate and Construction Law\nNavigate real estate transactions and construction projects with confidence. Our teams specialize in contract negotiation, land use approvals, and real estate finance, providing tailored advice for developers, investors, and property managers.\n1. Book appointment\nBack to main menu",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "4"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Employment and Labor Law\nManage your workforce with confidence under our advisory. From employment contracts and workplace policies to labour disputes and regulatory compliance, our expertise ensures your practices align with labour laws and protect both your company and your employees.\n1. Book appointment\nBack to main menu",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "5"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Technology, Media and Technology Law\nOur expertise covers a broad spectrum of technology-related issues, including data protection, cybersecurity, intellectual property rights, technology law (AI, machine learning, and Fintech), media law and compliance with emerging technology regulations. We support startups and businesses in ensuring that their innovations are protected and their ventures comply with relevant laws.\n1. Book appointment\nBack to main menu",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "6"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Tax Law\nOur tax specialists provide strategic advice to ensure compliance and optimize tax positions. We handle everything from routine corporate tax planning and compliance to complex international tax matters and dispute resolution with tax authorities.\n1. Book appointment\nBack to main menu",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "7"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Banking and Financial Services\nWe advise banks, financial institutions, and fintech companies on regulatory compliance, financial instruments, and loan agreements. Our team ensures that your financial operations align with current laws and best practices, facilitating robust financial transactions.\n1. Book appointment\nBack to main menu",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "8"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Environmental Law and Sustainability\nAddress the complexities of environmental compliance and sustainability. Our firm supports clients in navigating regulations related to renewable energy projects, environmental due diligence, and sustainable business practices.\n1. Book appointment\nBack to main menu",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "9"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Mergers and Acquisitions\nWe leverage the experience of our our M&A team to provide end-to-end support at every phase of the merger or acquisition process. We provide restructuring advice, conduct due diligence, advise on compliance with all legal formalities, and prepare and negotiate transaction documents, including share purchase agreements, subscription agreements, options agreements and shareholders’ agreements.\n1. Book appointment\nBack to main menu",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "10"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Intellectual Property\nProtect your most valuable assets with our intellectual property expertise. From filing patents to defending against infringement, our team supports innovation by securing your intellectual property rights across various industries.\n1. Book appointment\nBack to main menu",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }
+                }
             } else{
                 await client.messages.create({
                     body : mainmenu,
