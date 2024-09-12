@@ -167,6 +167,15 @@ export async function POST(request){
                                 })
                         }
                     }
+                }else if(currentstep === "3"){
+                    const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"4",$set:{"appointmentDetails.name": body}})
+                    if(nextstep){
+                        await client.messages.create({
+                            body : "What is your phone number?",
+                            from: 'whatsapp:+14155238886',
+                            to:from
+                            })
+                    }
                 }
             } else{
                 await client.messages.create({
