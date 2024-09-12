@@ -115,7 +115,7 @@ export async function POST(request){
                                 })
                         }
                     }else if(body === "2"){
-                        const nextstep = await Session.findOneAndUpdate({userNumber:from},{flow:mainmenu, currentStep:"1"})
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from},{flow:"mainmenu", currentStep:"1"})
                         if(nextstep){
                             await client.messages.create({
                                 body : "Appointment successfully booking cancelled",
