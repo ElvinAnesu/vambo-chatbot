@@ -194,6 +194,26 @@ export async function POST(request){
                             to:from
                             })
                     }
+                }else if(currentstep === "6"){
+                    if(body === "1"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"1",flow:"mainmenu"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Application successfully submited. Our probono team will reach out to you",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "2"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"1",flow:"mainmenu"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Application cancelled",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }
                 }
             } else{
                 await client.messages.create({
