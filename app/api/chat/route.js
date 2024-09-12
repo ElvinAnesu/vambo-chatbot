@@ -144,7 +144,19 @@ export async function POST(request){
                     }
                 }
             }else if(flow === "applyprobono"){
-
+                const currentstep = sessionexists.currentStep
+                if(currentstep === "1"){
+                    if(body === "1"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2", languagePreference:"english"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "What type of case do you need assistance from?\n\n1. Employment Issue\n2. Car Accident\n3. Domestic Violence\n4. Someone was arrested\n5. Land Issues\n6. Other",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }
+                }
             } else{
                 await client.messages.create({
                     body : mainmenu,
