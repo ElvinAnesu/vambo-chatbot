@@ -49,6 +49,15 @@ export async function POST(request){
                             to:from
                             })  
                     }
+                }else if(body === "4"){
+                    const changeflow = await Session.findOneAndUpdate({userNumber:from},{flow:"applyprobono", currentStep:"1"})
+                    if(changeflow){
+                        await client.messages.create({
+                            body : "Please select the language you would like to be assisted in\n\n1. English\n2. KiSwahili\n3. French",
+                            from: 'whatsapp:+14155238886',
+                            to:from
+                            })  
+                    }
                 }
                 else{
                     await client.messages.create({
@@ -134,6 +143,8 @@ export async function POST(request){
                         }
                     }
                 }
+            }else if(flow === "applyprobono"){
+
             } else{
                 await client.messages.create({
                     body : mainmenu,
