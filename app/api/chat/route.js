@@ -166,6 +166,51 @@ export async function POST(request){
                                 to:from
                                 })
                         }
+                    }else if(body === "2"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"3",proBonoCaseType:"caraccident"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "3"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"3",proBonoCaseType:"domestic violence"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "2"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"3",proBonoCaseType:"arrested"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "2"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"3",proBonoCaseType:"land"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "2"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"3",proBonoCaseType:"other"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
                     }
                 }else if(currentstep === "3"){
                     const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"4",$set:{"appointmentDetails.name": body}})
