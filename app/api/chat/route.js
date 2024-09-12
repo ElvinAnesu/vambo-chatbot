@@ -27,7 +27,7 @@ export async function POST(request){
         const sessionexists = await Session.findOne({userNumber:from})
         if(sessionexists){
             //user check the flow
-            const flow  = sessionexists.flow;
+            const flow  = sessionexists.flow
             if(flow === "mainmenu"){
                 if(body === "5"){
                     await client.messages.create({
@@ -57,7 +57,19 @@ export async function POST(request){
                         to:from
                         })
                 }
-            }else{
+            }else if(flow === "bookappointment"){
+                const currentstep = sessionexists.currentStep
+                if(currentstep === "1"){
+                    const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2", $set:{"appointmentDetails.name": body}})
+                    if(nextstep){
+                        await client.messages.create({
+                            body : "what is your phone number",
+                            from: 'whatsapp:+14155238886',
+                            to:from
+                            })
+                    }
+                }
+            } else{
                 await client.messages.create({
                     body : mainmenu,
                     from: 'whatsapp:+14155238886',
