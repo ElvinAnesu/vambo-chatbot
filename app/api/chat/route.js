@@ -106,7 +106,7 @@ export async function POST(request){
                     }
                 }else if(currentstep === "6"){
                     if(body === "1"){
-                        const nextstep = await Session.findOneAndUpdate({userNumber:from},{flow:mainmenu, currentStep:"1"})
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from},{flow:"mainmenu", currentStep:"1"})
                         if(nextstep){
                             await client.messages.create({
                                 body : "Appointment successfully booked our team will reach out to confirm availability",
