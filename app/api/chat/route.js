@@ -35,12 +35,22 @@ export async function POST(request){
                         from: 'whatsapp:+14155238886',
                         to:from
                         })
+                    await client.messages.create({
+                        body : mainmenu2,
+                        from: 'whatsapp:+14155238886',
+                        to:from
+                        })    
+                }else if(body === "3"){
+                    const changeflow = await Session.findOneAndUpdate({userNumber:from},{flow:"bookappointment", currentStep:"1"})
+                    if(changeflow){
                         await client.messages.create({
-                            body : mainmenu2,
+                            body : "Please provide your details to book an appointment\n\nWhat is your fullname?",
                             from: 'whatsapp:+14155238886',
                             to:from
-                            })    
-                }else{
+                            })  
+                    }
+                }
+                else{
                     await client.messages.create({
                         body : mainmenuerror,
                         from: 'whatsapp:+14155238886',
