@@ -99,10 +99,39 @@ export async function POST(request){
                     const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"6", $set:{"appointmentDetails.notes": body}})
                     if(nextstep){
                         await client.messages.create({
-                            body : `Confirm Details\nName:${nextstep.appointmentDetails.name}\nEmail:${nextstep.appointmentDetails.email}\nPhone:${nextstep.appointmentDetails.phone}\nDate:${nextstep.appointmentDetails.date}\nArea of law:${nextstep.appointmentDetails.notes}`,
+                            body : `Confirm Details\nName:${nextstep.appointmentDetails.name}\nEmail:${nextstep.appointmentDetails.email}\nPhone:${nextstep.appointmentDetails.phone}\nDate:${nextstep.appointmentDetails.date}\nArea of law:${body}\n\n\n1. Confirm\n2. Cancel`,
                             from: 'whatsapp:+14155238886',
                             to:from
                             })
+                    }
+                }else if(currentstep === "6"){
+                    if(body === "1"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from},{flow:mainmenu, currentStep:"1"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Appointment successfully booked our team will reach out to confirm availability",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else if(body === "2"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from},{flow:mainmenu, currentStep:"1"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Appointment successfully booking cancelled",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }else{
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"6", $set:{"appointmentDetails.notes": body}})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : `Confirm Details\nName:${nextstep.appointmentDetails.name}\nEmail:${nextstep.appointmentDetails.email}\nPhone:${nextstep.appointmentDetails.phone}\nDate:${nextstep.appointmentDetails.date}\nArea of law:${body}\n\n\n1. Confirm\n2. Cancel`,
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
                     }
                 }
             } else{
