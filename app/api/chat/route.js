@@ -150,7 +150,18 @@ export async function POST(request){
                         const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"2", languagePreference:"english"})
                         if(nextstep){
                             await client.messages.create({
-                                body : "What type of case do you need assistance from?\n\n1. Employment Issue\n2. Car Accident\n3. Domestic Violence\n4. Someone was arrested\n5. Land Issues\n6. Other",
+                                body : "What type of case do you need assistance with?\n\n1. Employment Issue\n2. Car Accident\n3. Domestic Violence\n4. Someone was arrested\n5. Land Issues\n6. Other",
+                                from: 'whatsapp:+14155238886',
+                                to:from
+                                })
+                        }
+                    }
+                }else if(currentstep === "2"){
+                    if(body === "1"){
+                        const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"3",proBonoCaseType:"employment"})
+                        if(nextstep){
+                            await client.messages.create({
+                                body : "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
                                 from: 'whatsapp:+14155238886',
                                 to:from
                                 })
