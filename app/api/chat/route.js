@@ -95,6 +95,15 @@ export async function POST(request){
                             to:from
                             })
                     }
+                }else if(currentstep === "5"){
+                    const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"6", $set:{"appointmentDetails.notes": body}})
+                    if(nextstep){
+                        await client.messages.create({
+                            body : `Confirm Details\nName:${nextstep.appointmentDetails.name}\nEmail:${nextstep.appointmentDetails.email}\nPhone:${nextstep.appointmentDetails.phone}\nDate:${nextstep.appointmentDetails.date}\nArea of law:${nextstep.appointmentDetails.notes}`,
+                            from: 'whatsapp:+14155238886',
+                            to:from
+                            })
+                    }
                 }
             } else{
                 await client.messages.create({
