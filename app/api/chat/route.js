@@ -191,7 +191,7 @@ export async function POST(request){
                                 to:from
                                 })
                         }
-                    }else if(body === "2"){
+                    }else if(body === "4"){
                         const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"3",proBonoCaseType:"Someone Arrested"})
                         if(nextstep){
                             await client.messages.create({
@@ -200,7 +200,7 @@ export async function POST(request){
                                 to:from
                                 })
                         }
-                    }else if(body === "2"){
+                    }else if(body === "5"){
                         const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"3",proBonoCaseType:"Land Issue"})
                         if(nextstep){
                             await client.messages.create({
@@ -209,7 +209,7 @@ export async function POST(request){
                                 to:from
                                 })
                         }
-                    }else if(body === "2"){
+                    }else if(body === "6"){
                         const nextstep = await Session.findOneAndUpdate({userNumber:from}, {currentStep:"3",proBonoCaseType:"Other"})
                         if(nextstep){
                             await client.messages.create({
