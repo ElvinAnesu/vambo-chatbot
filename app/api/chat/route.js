@@ -58,6 +58,15 @@ export async function POST(request){
                             to:from
                             })  
                     }
+                }else if(body === "2"){
+                    const changeflow = await Session.findOneAndUpdate({userNumber:from},{flow:"legalservices", currentStep:"1"})
+                    if(changeflow){
+                        await client.messages.create({
+                            body : "Below are our legal services:\n\n1. Corporate & Commercial Law\n2. Dispute Resolution\n3. Real Estate and Construction Law\n4. Employment and Labor Law\n5. Technology, Media and Technology Law\n6. Tax Law\n7. Banking and Financial Services\n8. Environmental Law and Sustainability\n9. Mergers and Acquisitions\n10. Intellectual Property",
+                            from: 'whatsapp:+14155238886',
+                            to:from
+                            })  
+                    }
                 }
                 else{
                     await client.messages.create({
@@ -267,6 +276,8 @@ export async function POST(request){
                         }
                     }
                 }
+            }else if(flow === "legalservices"){
+
             } else{
                 await client.messages.create({
                     body : mainmenu,
