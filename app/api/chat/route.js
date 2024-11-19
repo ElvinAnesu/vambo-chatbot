@@ -145,136 +145,6 @@ const laws = [
 	},
 ];
 
-export async function POST(request) {
-	const rawBody = await request.text();
-	const formData = new URLSearchParams(rawBody);
-	const body = formData.get("Body");
-	const from = formData.get("From");
-
-	try {
-		connectdb();
-		const sessionexists = await Session.findOne({ userNumber: from });
-		console.log("message receivd");
-		if (sessionexists) {
-			const flow = sessionexists.flow;
-			if (flow === "mainmenu") {
-				if (body === "5") {
-					await client.messages.create({
-						body: contactdetails,
-						from: "whatsapp:+447366906491",
-						to: from,
-					});
-					await client.messages.create({
-						body: mainmenu2,
-						from: "whatsapp:+447366906491",
-						to: from,
-					});
-				} else if (body === "3") {
-					const changeflow = await Session.findOneAndUpdate(
-						{ userNumber: from },
-						{ flow: "bookappointment", currentStep: "1" }
-					);
-					if (changeflow) {
-						await client.messages.create({
-							body: "Please provide your details to book an appointment\n\nWhat is your fullname?\n\n#. Back to main menu",
-							from: "whatsapp:+447366906491",
-							to: from,
-						});
-					}
-				} else if (body === "4") {
-					const changeflow = await Session.findOneAndUpdate(
-						{ userNumber: from },
-						{ flow: "applyprobono", currentStep: "1" }
-					);
-					if (changeflow) {
-						await client.messages.create({
-							body: "Please select the language you would like to be assisted in\n\n1. English\n2. KiSwahili\n3. French\n4. Back to menu",
-							from: "whatsapp:+447366906491",
-							to: from,
-						});
-					}
-				} else if (body === "2") {
-					const changeflow = await Session.findOneAndUpdate(
-						{ userNumber: from },
-						{ flow: "legalservices", currentStep: "1" }
-					);
-					if (changeflow) {
-						await client.messages.create({
-							body: "Below are our legal services:\n\n1. Corporate & Commercial Law\n2. Dispute Resolution\n3. Real Estate and Construction Law\n4. Employment and Labor Law\n5. Technology, Media and Technology Law\n6. Tax Law\n7. Banking and Financial Services\n8. Environmental Law and Sustainability\n9. Mergers and Acquisitions\n10. Intellectual Property\n\n11. Back to main menu",
-							from: "whatsapp:+447366906491",
-							to: from,
-						});
-					}
-				} else if (body === "1") {
-					const changeflow = await Session.findOneAndUpdate(
-						{ userNumber: from },
-						{ flow: "kenyanlaw", currentStep: "1" }
-					);
-					if (changeflow) {
-						kenyanLawFlow("1", from, body);
-					}
-				} else {
-					await client.messages.create({
-						body: mainmenuerror,
-						from: "whatsapp:+447366906491",
-						to: from,
-					});
-				}
-			} else if (flow === "bookappointment") {
-				const currentstep = sessionexists.currentStep;
-				bookAppointmentFlow(currentstep, from, body);
-			} else if (flow === "applyprobono") {
-				const currentstep = sessionexists.currentStep;
-				applyProbono(currentstep, from, body);
-			} else if (flow === "legalservices") {
-				const currentstep = sessionexists.currentStep;
-				legalServicesFlow(currentstep, from, body);
-			} else if (flow === "kenyanlaw") {
-				const currentstep = sessionexists.currentStep;
-				kenyanLawFlow(currentstep, from, body);
-			} else {
-				await client.messages.create({
-					body: mainmenu,
-					from: "whatsapp:+447366906491",
-					to: from,
-				});
-			}
-		} else {
-			console.log("im in");
-			await Session.create({
-				userNumber: from,
-				currentStep: 0,
-			});
-			// Sending the greetings message and the main menu in parallel using Promise.all
-			await Promise.all([
-				client.messages.create({
-					body: welcometxt,
-					from: "whatsapp:+447366906491",
-					to: from,
-				}),
-				client.messages.create({
-					body: mainmenu,
-					from: "whatsapp:+447366906491",
-					to: from,
-				}),
-			]);
-		}
-
-		return NextResponse.json({
-			status: 200,
-			message: "Message sent successfully",
-			success: true,
-		});
-	} catch (error) {
-		console.log(error);
-		return NextResponse.json({
-			status: 500,
-			message: "Error sending message",
-			success: false,
-		});
-	}
-}
-
 // Reusable function to send WhatsApp messages
 async function sendWhatsAppMessage(to, body) {
 	try {
@@ -284,8 +154,125 @@ async function sendWhatsAppMessage(to, body) {
 			to,
 		});
 	} catch (error) {
-		console.error(`Failed to send message to ${to}:`, error.message);
+		console.error(`Failed to send message to ${to}: ${error.message}`);
 		throw new Error("Error sending WhatsApp message");
+	}
+}
+
+export async function POST(request) {
+	const rawBody = await request.text();
+	const formData = new URLSearchParams(rawBody);
+	const body = formData.get("Body");
+	const from = formData.get("From");
+
+	try {
+		await connectdb();
+		const sessionexists = await Session.findOne({ userNumber: from });
+		console.log("message received");
+
+		if (sessionexists) {
+			const flow = sessionexists.flow;
+			await handleExistingSession(flow, body, from, sessionexists);
+		} else {
+			console.log("Creating new session");
+			await Session.create({ userNumber: from, currentStep: 0 });
+			await Promise.all([
+				sendWhatsAppMessage(from, welcometxt),
+				sendWhatsAppMessage(from, mainmenu),
+			]);
+		}
+
+		return NextResponse.json({
+			status: 200,
+			message: "Message sent successfully",
+			success: true,
+		});
+	} catch (error) {
+		console.error("Error in POST handler:", error);
+		return NextResponse.json({
+			status: 500,
+			message: "Error sending message",
+			success: false,
+		});
+	}
+}
+
+async function handleExistingSession(flow, body, from, sessionexists) {
+	let currentStep;
+	switch (flow) {
+		case "mainmenu":
+			await handleMainMenu(body, from, sessionexists);
+			break;
+		case "bookappointment":
+			currentStep = sessionexists.currentStep;
+			await bookAppointmentFlow(currentStep, from, body);
+			break;
+		case "applyprobono":
+			currentStep = sessionexists.currentStep;
+			await applyProbono(currentStep, from, body);
+			break;
+		case "legalservices":
+			currentStep = sessionexists.currentStep;
+			await legalServicesFlow(currentStep, from, body);
+			break;
+		case "kenyanlaw":
+			currentStep = sessionexists.currentStep;
+			await kenyanLawFlow(currentStep, from, body);
+			break;
+		default:
+			await sendWhatsAppMessage(from, mainmenu);
+	}
+}
+
+async function handleMainMenu(body, from, sessionexists) {
+	switch (body) {
+		case "5":
+			await Promise.all([
+				sendWhatsAppMessage(from, contactdetails),
+				sendWhatsAppMessage(from, mainmenu2),
+			]);
+			break;
+		case "3":
+			await changeFlow(
+				from,
+				"bookappointment",
+				"1",
+				"Please provide your details to book an appointment\n\nWhat is your fullname?\n\n#. Back to main menu"
+			);
+			break;
+		case "4":
+			await changeFlow(
+				from,
+				"applyprobono",
+				"1",
+				"Please select the language you would like to be assisted in\n\n1. English\n2. KiSwahili\n3. French\n4. Back to menu"
+			);
+			break;
+		case "2":
+			await changeFlow(
+				from,
+				"legalservices",
+				"1",
+				"Below are our legal services:\n\n1. Corporate & Commercial Law\n2. Dispute Resolution\n3. Real Estate and Construction Law\n4. Employment and Labor Law\n5. Technology, Media and Technology Law\n6. Tax Law\n7. Banking and Financial Services\n8. Environmental Law and Sustainability\n9. Mergers and Acquisitions\n10. Intellectual Property\n\n11. Back to main menu"
+			);
+			break;
+		case "1":
+			await changeFlow(from, "kenyanlaw", "1", " \n\n 1.View Kenyan Laws");
+			break;
+		default:
+			await sendWhatsAppMessage(from, mainmenuerror);
+	}
+}
+
+async function changeFlow(from, flow, currentStep, message) {
+	const changeflow = await Session.findOneAndUpdate(
+		{ userNumber: from },
+		{ flow, currentStep }
+	);
+	if (changeflow) {
+		if (message) {
+			await sendWhatsAppMessage(from, message);
+		}
 	}
 }
 
