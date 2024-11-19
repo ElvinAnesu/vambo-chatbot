@@ -176,10 +176,7 @@ export async function POST(request) {
 		} else {
 			console.log("Creating new session");
 			await Session.create({ userNumber: from, currentStep: 0 });
-			await Promise.all([
-				sendWhatsAppMessage(from, mainmenu),
-				sendWhatsAppMessage(from, welcometxt),
-			]);
+			sendWhatsAppMessage(from, `${welcometxt} \n\n ${mainmenu}`);
 		}
 
 		return NextResponse.json({
@@ -227,10 +224,10 @@ async function handleExistingSession(flow, body, from, sessionexists) {
 async function handleMainMenu(body, from, sessionexists) {
 	switch (body) {
 		case "5":
-			await Promise.all([
-				sendWhatsAppMessage(from, contactdetails),
-				sendWhatsAppMessage(from, mainmenu2),
-			]);
+			await sendWhatsAppMessage(
+				from,
+				`${contactdetails} \n\n\n ${mainmenuerror}`
+			);
 			break;
 		case "3":
 			await changeFlow(
