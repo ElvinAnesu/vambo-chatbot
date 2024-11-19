@@ -38,6 +38,111 @@ const laws = [
 		law: "Age of Majority Act",
 		url: "https://new.kenyalaw.org/akn/ke/act/1974/1/eng@1974-04-05/source",
 	},
+
+	{
+		law: "Banking Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1989/9/eng@2023-09-15/source",
+	},
+	{
+		law: "Basic Education Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/2013/14/eng@2022-12-31/source",
+	},
+	{
+		law: "Betting, Lotteries and Gaming Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1966/9/eng@2023-07-01/source",
+	},
+	{
+		law: "Biosafety Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/2009/2/eng@2023-12-11/source",
+	},
+	{
+		law: "Brokers Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1930/56/eng@2022-12-31/source",
+	},
+
+	{
+		law: "Capital Markets Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1989/17/eng@2023-12-11/source",
+	},
+	{
+		law: "Carriage by Air Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1993/2/eng@2022-12-31/source",
+	},
+	{
+		law: "Cattle Cleansing Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1929/32/eng@2022-12-31/source",
+	},
+	{
+		law: "Central Bank of Kenya Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1966/15/eng@2023-09-15/source",
+	},
+	{
+		law: "Central Depositories Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/2000/4/eng@2023-12-11/source",
+	},
+
+	{
+		law: "Dairy Industry Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1958/34/eng@2022-12-31/source",
+	},
+	{
+		law: "Data Protection Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/2019/24/eng@2022-12-31/source",
+	},
+	{
+		law: "Defamation Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1970/10/eng@1992-10-23/source",
+	},
+	{
+		law: "Digital Health Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/2023/15/eng@2023-11-24/source",
+	},
+	{
+		law: "Distress for Rent Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1937/1/eng@2022-12-31/source",
+	},
+
+	{
+		law: "Early Childhood Education Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/2021/3/eng@2022-12-31/source",
+	},
+	{
+		law: "East African Development Bank Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1984/3/eng@2022-12-31/source",
+	},
+	{
+		law: "Election Campaign Financing Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/2013/42/eng@2022-12-31/source",
+	},
+	{
+		law: "Election Offences Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/2016/37/eng@2022-12-31/source",
+	},
+	{
+		law: "Elections Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/2011/24/eng@2022-12-31/source",
+	},
+	//five
+	{
+		law: "Facilities Improvement Financing Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/2023/14/eng@2023-11-24/source",
+	},
+	{
+		law: "Fair Administrative Action Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/2015/4/eng@2022-12-31/source",
+	},
+	{
+		law: "Ferries Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1936/15/eng@2022-12-31/source",
+	},
+	{
+		law: "Fertilizers and Animal Foodstuffs Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1962/23/eng@2022-12-31/source",
+	},
+	{
+		law: "Films and Stage Plays Act",
+		url: "https://new.kenyalaw.org/akn/ke/act/1962/34/eng@2022-12-31/source",
+	},
 ];
 
 export async function POST(request) {
@@ -49,6 +154,7 @@ export async function POST(request) {
 	try {
 		connectdb();
 		const sessionexists = await Session.findOne({ userNumber: from });
+		console.log("message receivd");
 		if (sessionexists) {
 			const flow = sessionexists.flow;
 			if (flow === "mainmenu") {
@@ -70,7 +176,7 @@ export async function POST(request) {
 					);
 					if (changeflow) {
 						await client.messages.create({
-							body: "Please provide your details to book an appointment\n\nWhat is your fullname?",
+							body: "Please provide your details to book an appointment\n\nWhat is your fullname?\n\n#. Back to main menu",
 							from: "whatsapp:+14155238886",
 							to: from,
 						});
@@ -82,7 +188,7 @@ export async function POST(request) {
 					);
 					if (changeflow) {
 						await client.messages.create({
-							body: "Please select the language you would like to be assisted in\n\n1. English\n2. KiSwahili\n3. French",
+							body: "Please select the language you would like to be assisted in\n\n1. English\n2. KiSwahili\n3. French\n4. Back to menu",
 							from: "whatsapp:+14155238886",
 							to: from,
 						});
@@ -188,9 +294,9 @@ async function kenyanLawFlow(currentstep, from, body) {
 	const currentStep = currentstep;
 	if (currentStep === "1") {
 		const firstFiveLaws = laws.slice(0, 5);
-		let lawList = "Here are 5 laws:\n\n";
+		let lawList = "Kenyan Laws:\n\n";
 		firstFiveLaws.forEach((law, index) => {
-			lawList += `${index + 1}. ${law.law} - ${law.url}\n\n`;
+			lawList += `${index + 1}. ${law.law}\n${law.url}\n\n`;
 		});
 		const options = "6. View More Laws\n7. Return to Main Menu";
 		const response = lawList + options;
@@ -198,14 +304,18 @@ async function kenyanLawFlow(currentstep, from, body) {
 		await Session.findOneAndUpdate({ userNumber: from }, { currentStep: "2" });
 	} else if (currentStep === "2") {
 		if (body === "6") {
-			const moreLaws = laws.slice(5);
-			let moreLawList = "Here are more laws:\n\n";
-			moreLaws.forEach((law, index) => {
-				moreLawList += `${index + 6}. ${law.law} - ${law.url}\n\n`;
+			const firstFiveLaws = laws.slice(5, 10);
+			let lawList = "Kenyan Laws:\n\n";
+			firstFiveLaws.forEach((law, index) => {
+				lawList += `${index + 1}. ${law.law}\n${law.url}\n\n`;
 			});
-			const options = "7. Return to Main Menu";
-			const response = moreLawList + options;
+			const options = "6. Return to Main Menu";
+			const response = lawList + options;
 			await sendWhatsAppMessage(from, response);
+			await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ currentStep: "3" }
+			);
 		} else if (body === "7") {
 			await Session.findOneAndUpdate(
 				{ userNumber: from },
@@ -213,71 +323,165 @@ async function kenyanLawFlow(currentstep, from, body) {
 			);
 			await sendWhatsAppMessage(from, mainmenu2);
 		} else {
-			await sendWhatsAppMessage(from, mainmenuerror);
+			const firstFiveLaws = laws.slice(5, 10);
+			let lawList = "Kenyan Laws:\n\n";
+			firstFiveLaws.forEach((law, index) => {
+				lawList += `${index + 1}. ${law.law}\n${law.url}\n\n`;
+			});
+			const options = "6. Return to Main Menu";
+			const response = "Invalid option\n\n" + lawList + options;
+			await sendWhatsAppMessage(from, response);
+		}
+	} else if (currentStep === "3") {
+		if (body === "6") {
+			await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			await sendWhatsAppMessage(from, mainmenu2);
+		} else {
+			const firstFiveLaws = laws.slice(5, 10);
+			let lawList = "Kenyan Laws:\n\n";
+			firstFiveLaws.forEach((law, index) => {
+				lawList += `${index + 1}. ${law.law}\n${law.url}\n\n`;
+			});
+			const options = "6. Return to Main Menu";
+			const response = "Invalid option\n\n" + lawList + options;
+			await sendWhatsAppMessage(from, response);
 		}
 	}
 }
 
 const bookAppointmentFlow = async (currentstep, from, body) => {
 	if (currentstep === "1") {
-		const nextstep = await Session.findOneAndUpdate(
-			{ userNumber: from },
-			{ currentStep: "2", $set: { "appointmentDetails.name": body } }
-		);
-		if (nextstep) {
-			await client.messages.create({
-				body: "what is your phone number",
-				from: "whatsapp:+14155238886",
-				to: from,
-			});
+		if (body === "#") {
+			const changeflow = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			if (changeflow) {
+				await client.messages.create({
+					body: mainmenu,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else {
+			const nextstep = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ currentStep: "2", $set: { "appointmentDetails.name": body } }
+			);
+			if (nextstep) {
+				await client.messages.create({
+					body: "what is your phone number\n\n#.Back to main menu",
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
 		}
 	} else if (currentstep === "2") {
-		const nextstep = await Session.findOneAndUpdate(
-			{ userNumber: from },
-			{ currentStep: "3", $set: { "appointmentDetails.phone": body } }
-		);
-		if (nextstep) {
-			await client.messages.create({
-				body: "what is your email address",
-				from: "whatsapp:+14155238886",
-				to: from,
-			});
+		if (body === "#") {
+			const changeflow = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			if (changeflow) {
+				await client.messages.create({
+					body: mainmenu,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else {
+			const nextstep = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ currentStep: "3", $set: { "appointmentDetails.phone": body } }
+			);
+			if (nextstep) {
+				await client.messages.create({
+					body: "what is your email address\n\n#.Back to main menu",
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
 		}
 	} else if (currentstep === "3") {
-		const nextstep = await Session.findOneAndUpdate(
-			{ userNumber: from },
-			{ currentStep: "4", $set: { "appointmentDetails.email": body } }
-		);
-		if (nextstep) {
-			await client.messages.create({
-				body: "Which date and time would you like to book for an appointment",
-				from: "whatsapp:+14155238886",
-				to: from,
-			});
+		if (body === "#") {
+			const changeflow = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			if (changeflow) {
+				await client.messages.create({
+					body: mainmenu,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else {
+			const nextstep = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ currentStep: "4", $set: { "appointmentDetails.email": body } }
+			);
+			if (nextstep) {
+				await client.messages.create({
+					body: "Which date and time would you like to book for an appointment\n\n#.Back to main menu",
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
 		}
 	} else if (currentstep === "4") {
-		const nextstep = await Session.findOneAndUpdate(
-			{ userNumber: from },
-			{ currentStep: "5", $set: { "appointmentDetails.date": body } }
-		);
-		if (nextstep) {
-			await client.messages.create({
-				body: "Which area of law do you want assistance?",
-				from: "whatsapp:+14155238886",
-				to: from,
-			});
+		if (body === "#") {
+			const changeflow = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			if (changeflow) {
+				await client.messages.create({
+					body: mainmenu,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else {
+			const nextstep = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ currentStep: "5", $set: { "appointmentDetails.date": body } }
+			);
+			if (nextstep) {
+				await client.messages.create({
+					body: "Which area of law do you want assistance?\n\n#.Back to main menu",
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
 		}
 	} else if (currentstep === "5") {
-		const nextstep = await Session.findOneAndUpdate(
-			{ userNumber: from },
-			{ currentStep: "6", $set: { "appointmentDetails.notes": body } }
-		);
-		if (nextstep) {
-			await client.messages.create({
-				body: `Confirm Details\nName:${nextstep.appointmentDetails.name}\nEmail:${nextstep.appointmentDetails.email}\nPhone:${nextstep.appointmentDetails.phone}\nDate:${nextstep.appointmentDetails.date}\nArea of law:${body}\n\n\n1. Confirm\n2. Cancel`,
-				from: "whatsapp:+14155238886",
-				to: from,
-			});
+		if (body === "#") {
+			const changeflow = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			if (changeflow) {
+				await client.messages.create({
+					body: mainmenu,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else {
+			const nextstep = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ currentStep: "6", $set: { "appointmentDetails.notes": body } }
+			);
+			if (nextstep) {
+				await client.messages.create({
+					body: `Confirm Details\nName:${nextstep.appointmentDetails.name}\nEmail:${nextstep.appointmentDetails.email}\nPhone:${nextstep.appointmentDetails.phone}\nDate:${nextstep.appointmentDetails.date}\nArea of law:${body}\n\n\n1. Confirm\n2. Cancel`,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
 		}
 	} else if (currentstep === "6") {
 		if (body === "1") {
@@ -442,6 +646,24 @@ const legalServicesFlow = async (currentstep, from, body) => {
 					to: from,
 				});
 			}
+		} else if (body === "11") {
+			const changeflow = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			if (changeflow) {
+				await client.messages.create({
+					body: mainmenu,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else {
+			await client.messages.create({
+				body: "Invalid option\n\nBelow are our legal services:\n\n1. Corporate & Commercial Law\n2. Dispute Resolution\n3. Real Estate and Construction Law\n4. Employment and Labor Law\n5. Technology, Media and Technology Law\n6. Tax Law\n7. Banking and Financial Services\n8. Environmental Law and Sustainability\n9. Mergers and Acquisitions\n10. Intellectual Property\n\n11. Back to main menu",
+				from: "whatsapp:+14155238886",
+				to: from,
+			});
 		}
 	} else if (currentstep === "2") {
 		if (body === "1") {
@@ -482,14 +704,38 @@ const applyProbono = async (currentstep, from, body) => {
 			);
 			if (nextstep) {
 				await client.messages.create({
-					body: "What type of case do you need assistance with?\n\n1. Employment Issue\n2. Car Accident\n3. Domestic Violence\n4. Someone was arrested\n5. Land Issues\n6. Other",
+					body: "What type of case do you need assistance with?\n\n1. Employment Issue\n2. Car Accident\n3. Domestic Violence\n4. Someone was arrested\n5. Land Issues\n6. Other\n7. Back to main menu",
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else if (body === "2") {
+			await client.messages.create({
+				body: "KiSwahili will be available soon please use english",
+				from: "whatsapp:+14155238886",
+				to: from,
+			});
+		} else if (body === "3") {
+			await client.messages.create({
+				body: "French will be available soon please use english",
+				from: "whatsapp:+14155238886",
+				to: from,
+			});
+		} else if (body === "4") {
+			const changeflow = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			if (changeflow) {
+				await client.messages.create({
+					body: mainmenu,
 					from: "whatsapp:+14155238886",
 					to: from,
 				});
 			}
 		} else {
 			await client.messages.create({
-				body: "Other languages will be available soon please use english",
+				body: "Invalid oiption\n\nPlease select the language you would like to be assisted in\n\n1. English\n2. KiSwahili\n3. French\n4. Back to menu",
 				from: "whatsapp:+14155238886",
 				to: from,
 			});
@@ -502,7 +748,7 @@ const applyProbono = async (currentstep, from, body) => {
 			);
 			if (nextstep) {
 				await client.messages.create({
-					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
+					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?\n\n#Back to main menu",
 					from: "whatsapp:+14155238886",
 					to: from,
 				});
@@ -514,7 +760,7 @@ const applyProbono = async (currentstep, from, body) => {
 			);
 			if (nextstep) {
 				await client.messages.create({
-					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
+					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?\n\n#Back to main menu",
 					from: "whatsapp:+14155238886",
 					to: from,
 				});
@@ -526,7 +772,7 @@ const applyProbono = async (currentstep, from, body) => {
 			);
 			if (nextstep) {
 				await client.messages.create({
-					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
+					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?\n\n#Back to main menu",
 					from: "whatsapp:+14155238886",
 					to: from,
 				});
@@ -538,7 +784,7 @@ const applyProbono = async (currentstep, from, body) => {
 			);
 			if (nextstep) {
 				await client.messages.create({
-					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
+					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?\n\n#Back to main menu",
 					from: "whatsapp:+14155238886",
 					to: from,
 				});
@@ -550,7 +796,7 @@ const applyProbono = async (currentstep, from, body) => {
 			);
 			if (nextstep) {
 				await client.messages.create({
-					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
+					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?\n\n#Back to main menu",
 					from: "whatsapp:+14155238886",
 					to: from,
 				});
@@ -562,47 +808,107 @@ const applyProbono = async (currentstep, from, body) => {
 			);
 			if (nextstep) {
 				await client.messages.create({
-					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?",
+					body: "Please provide the following details so that our probono team will reach out to you\n\nWhat is your full name?\n\n#Back to main menu",
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else if (body === "7") {
+			const changeflow = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			if (changeflow) {
+				await client.messages.create({
+					body: mainmenu,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else {
+			await client.messages.create({
+				body: "Invalid option\n\nWhat type of case do you need assistance with?\n\n1. Employment Issue\n2. Car Accident\n3. Domestic Violence\n4. Someone was arrested\n5. Land Issues\n6. Other\n7. Back to main menu",
+				from: "whatsapp:+14155238886",
+				to: from,
+			});
+		}
+	} else if (currentstep === "3") {
+		if (body === "#") {
+			const changeflow = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			if (changeflow) {
+				await client.messages.create({
+					body: mainmenu,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else {
+			const nextstep = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ currentStep: "4", $set: { "appointmentDetails.name": body } }
+			);
+			if (nextstep) {
+				await client.messages.create({
+					body: "What is your phone number?\n\n#. Back to main menu",
 					from: "whatsapp:+14155238886",
 					to: from,
 				});
 			}
 		}
-	} else if (currentstep === "3") {
-		const nextstep = await Session.findOneAndUpdate(
-			{ userNumber: from },
-			{ currentStep: "4", $set: { "appointmentDetails.name": body } }
-		);
-		if (nextstep) {
-			await client.messages.create({
-				body: "What is your phone number?",
-				from: "whatsapp:+14155238886",
-				to: from,
-			});
-		}
 	} else if (currentstep === "4") {
-		const nextstep = await Session.findOneAndUpdate(
-			{ userNumber: from },
-			{ currentStep: "5", $set: { "appointmentDetails.phone": body } }
-		);
-		if (nextstep) {
-			await client.messages.create({
-				body: "What is your phone email address?",
-				from: "whatsapp:+14155238886",
-				to: from,
-			});
+		if (body === "#") {
+			const changeflow = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			if (changeflow) {
+				await client.messages.create({
+					body: mainmenu,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else {
+			const nextstep = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ currentStep: "5", $set: { "appointmentDetails.phone": body } }
+			);
+			if (nextstep) {
+				await client.messages.create({
+					body: "What is your email address?\n\n#. Back to main menu",
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
 		}
 	} else if (currentstep === "5") {
-		const nextstep = await Session.findOneAndUpdate(
-			{ userNumber: from },
-			{ currentStep: "6", $set: { "appointmentDetails.email": body } }
-		);
-		if (nextstep) {
-			await client.messages.create({
-				body: `Confirm details?\n\nName :${nextstep.appointmentDetails.name}\nPhone :${nextstep.appointmentDetails.phone}\nEmail :${body}\nCase Type :${nextstep.proBonoCaseType} \n\n1.Confirm\n2.Cancel`,
-				from: "whatsapp:+14155238886",
-				to: from,
-			});
+		if (body === "#") {
+			const changeflow = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ flow: "mainmenu", currentStep: "1" }
+			);
+			if (changeflow) {
+				await client.messages.create({
+					body: mainmenu,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
+		} else {
+			const nextstep = await Session.findOneAndUpdate(
+				{ userNumber: from },
+				{ currentStep: "6", $set: { "appointmentDetails.email": body } }
+			);
+			if (nextstep) {
+				await client.messages.create({
+					body: `Confirm details?\n\nName :${nextstep.appointmentDetails.name}\nPhone :${nextstep.appointmentDetails.phone}\nEmail :${body}\nCase Type :${nextstep.proBonoCaseType} \n\n1.Confirm\n2.Cancel`,
+					from: "whatsapp:+14155238886",
+					to: from,
+				});
+			}
 		}
 	} else if (currentstep === "6") {
 		if (body === "1") {
