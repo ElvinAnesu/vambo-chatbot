@@ -177,8 +177,8 @@ export async function POST(request) {
 			console.log("Creating new session");
 			await Session.create({ userNumber: from, currentStep: 0 });
 			await Promise.all([
-				sendWhatsAppMessage(from, welcometxt),
 				sendWhatsAppMessage(from, mainmenu),
+				sendWhatsAppMessage(from, welcometxt),
 			]);
 		}
 
